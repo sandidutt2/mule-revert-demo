@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="e59ecd61-58ac-4974-9d55-e701df1f3a8c" >
+		<db:oracle-connection host="jma-odsdb-qa.corp.jmfamily.com" user="coniunq" password="welcome123" instance="odsqa01" >
+			<db:pooling-profile maxPoolSize="8" minPoolSize="4" />
+		</db:oracle-connection>
+	</db:config>
+	<!-- [STUDIO:"oracle_updateFlow"]<flow name="oracle_updateFlow" doc:id="69ff9389-1918-445e-868d-8c6d76653cfb" >
+		<scheduler doc:name="Scheduler" doc:id="673e3795-22b1-4d45-a12a-65bc369a21ab" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="2" startDelay="1" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="5ba568ec-4071-416c-a060-792911fdea26" message="before update"/>
+		<ee:transform doc:name="Transform Message" doc:id="d0420297-50bb-46e0-b434-49594d4fb4d7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+346,0,0,0,337,0,10392,612,635,0,3395,1487,938,654,577,1185,870,2779,2118,2477,2687,3052,2024,2183,1349,357,1563,646,3564,2037,2663,2872,1659,2204,1327,1563,876,1118,1128,539,710,456,162,775,33,22151,7707,0
+&#45;&#45;-
+{
+}&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:execute-script doc:name="Execute script" doc:id="d672842e-b82a-420e-9c02-0af7001b6a71" config-ref="Database_Config">
+			<db:sql ><![CDATA[Update ods.o_data_sync_evnt_log set evnt_prcs_flg = 'N' where dw_created_dt > sysdate -30 and evnt_prcs_flg = 'Y' and evnt_prnt_nm='CTRCT' and   rownum <11&#93;&#93;></db:sql>
+		</db:execute-script>
+		<db:update doc:name="Update" doc:id="3bd332ef-1bc8-44ea-b36c-46926aa2b06c" config-ref="Database_Config">
+			<db:sql ><![CDATA[Update ods.o_data_sync_evnt_log set evnt_prcs_flg = 'N' where dw_created_dt > sysdate -200 and evnt_prcs_flg = 'Y' and rownum <11&#93;&#93;></db:sql>
+		</db:update>
+		<db:query-single doc:name="Query single" doc:id="f7ff395d-087f-498f-b1cc-19c9bde833eb" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE ods.o_data_sync_evnt_log
+        SET evnt_prcs_flg = 'N'
+        WHERE dw_created_dt > sysdate - 200
+          AND evnt_prcs_flg = 'Y'
+          AND rownum < 11&#93;&#93;></db:sql>
+		</db:query-single>
+		<logger level="INFO" doc:name="Logger" doc:id="c1abcf85-3cbf-49b5-96a3-72bbcbd5db25" message="after successful update"/>
+	</flow> [STUDIO] -->
+</mule>

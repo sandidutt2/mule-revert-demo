@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="62f29e76-95fa-4bce-b425-30227c191831" />
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="7b43fc08-47b8-463b-a363-f9e2986333c7" >
+		<salesforce:jwt-connection consumerKey="3MVG9u5bid8bKNSI4Cze_lyG497O8mjO8Qi2j2apVWuHrRj_d75vgkIlH2FfvubFaAaaWW9ysV3Wb0AnHunaf" principal="pursuitsoftwaredevelopmentpvt@isvedition.org.sujitsir" keyStore="C:\Users\convxpg\AnypointStudio\latest-workspace\test-erroralert\src\main\resources\certs\00DVZ0000009TpB.jks" storePassword="test1234" tokenEndpoint="https://test.salesforce.com/services/oauth2/token" audienceUrl="https://test.salesforce.com"/>
+	</salesforce:sfdc-config>
+	<salesforce:sfdc-config name="Salesforce_Config1" doc:name="Salesforce Config" doc:id="73028a28-d444-43ba-92eb-e24b7b6b8b53" >
+		<salesforce:jwt-connection consumerKey="3MVG9u5bid8bKNSI4Cze_lyG4911Hdy4VleZf1PobbosMIiKp3uzBbmkKx2ouNcky7ytJIJgcl6Nhltns41dQ" keyStore="C:\Users\convxpg\AnypointStudio\latest-workspace\test-erroralert\src\main\resources\certificates\00DVZ0000009TpB.jks" storePassword="abcd1234" principal="pursuitsoftwaredevelopmentpvt@isvedition.org.sujitsir" tokenEndpoint="https://test.salesforce.com/services/oauth2/token" audienceUrl="https://test.salesforce.com"/>
+	</salesforce:sfdc-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4286a2f1-c62a-4c6e-8b4a-609e040afc16" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<salesforce:sfdc-config name="Salesforce_Config_JMF_JWT" doc:name="Salesforce Config" doc:id="a62084e5-2798-4719-8406-14797a0f6801" >
+		<salesforce:jwt-connection consumerKey="3MVG9wy_WnyGrHdPk9zy4f04RiuMemz8Jl8.bAsxQgYk2VK1GEEfXZNqj32ZdzIXn6.G.mGPoNHlnffDHz96j" keyStore="C:\Users\convxpg\AnypointStudio\latest-workspace\test-erroralert\src\main\resources\JMFCerts\00D8J0000008aKD.jks" storePassword="p_id%253D%2526c" principal="mule_integrationuserqa@jmfamily.com.jmadss" tokenEndpoint="https://test.salesforce.com/services/oauth2/token" audienceUrl="https://test.salesforce.com" />
+	</salesforce:sfdc-config>
+	<salesforce:sfdc-config name="Salesforce_Config-sandipan-jwt" doc:name="Salesforce Config" doc:id="39fdc6dc-ad37-47ab-ba5f-272abe43dcc1" >
+		<salesforce:jwt-connection consumerKey="3MVG9YFqzc_KnL.w9a5Po5xE4AA813U2zTkw5xHGT7IEbFgR1hbHF4Z3QJxmoZa0KActSLJyff0kyP3x.pRdg" keyStore="C:\Users\convxpg\AnypointStudio\latest-workspace\test-erroralert\src\main\resources\certs\sandipan-jwt.jks" storePassword="sandi1234" principal="sandidutt2@resourceful-unicorn-4met9m.com" audienceUrl="https://login.salesforce.com" />
+	</salesforce:sfdc-config>
+	<!-- [STUDIO:"error-monitor-flow"]<flow name="error-monitor-flow">
+
+    <!&#45;&#45; Set current timestamp &#45;&#45;>
+    <http:listener doc:name="Listener" doc:id="1382932f-6ad6-4531-9e88-7d8b3a00a0d2" config-ref="HTTP_Listener_config" path="/alerttest"/>
+		<set-variable variableName="currentTime" value="#[now()&#93;" />
+
+    <!&#45;&#45; Retrieve existing timestamps list from Object Store &#45;&#45;>
+    
+
+    <!&#45;&#45; Append current time to the list &#45;&#45;>
+    <os:retrieve key="errorTimestamps" objectStore="Object_store" defaultValue="[&#93;" doc:name="Get Error List" doc:id="a8b24391-6718-44a8-b44e-225d304daef5" />
+		<set-variable variableName="updatedList" value="#[vars.errorTimestamps ++ [vars.currentTime&#93;&#93;" />
+
+    <!&#45;&#45; Store updated list &#45;&#45;>
+    
+
+    <!&#45;&#45; Only proceed if 10 or more errors &#45;&#45;>
+    <os:store key="errorTimestamps" value="#[vars.updatedList&#93;" objectStore="Object_store" doc:name="Store Updated List" doc:id="fc81b61c-2de1-47ee-b9d6-d8984d4150f9" />
+		<choice>
+        <when expression="#[sizeOf(vars.updatedList) >= 10&#93;">
+
+            <!&#45;&#45; Calculate time between first and last error &#45;&#45;>
+            <set-variable variableName="firstTime" value="#[vars.updatedList[0&#93; as DateTime&#93;" />
+            <set-variable variableName="lastTime" value="#[vars.updatedList[-1&#93; as DateTime&#93;" />
+            <set-variable variableName="durationInSeconds" value="#[(vars.lastTime - vars.firstTime).seconds&#93;" />
+
+            <!&#45;&#45; Check if errors happened within 120 seconds &#45;&#45;>
+            <choice>
+                <when expression="#[vars.durationInSeconds < 120&#93;">
+                    <!&#45;&#45; ✅ Send Alert &#45;&#45;>
+                    <logger message="🚨 ALERT: 10 errors occurred within 120 seconds!" level="ERROR" />
+                    <!&#45;&#45; (Optional: Send email or Slack alert here) &#45;&#45;>
+                </when>
+                <otherwise>
+                    <!&#45;&#45; ❌ Too slow — no alert &#45;&#45;>
+                    <logger message="ℹ️ 10 errors occurred but over more than 120 seconds — no alert sent." level="INFO" />
+                </otherwise>
+            </choice>
+
+            <!&#45;&#45; Clear object store in both cases &#45;&#45;>
+            
+				<os:remove key="errorTimestamps" objectStore="Object_store" doc:name="Remove Object Store" doc:id="da9931b6-2da8-4391-88a5-8eacf90573fd" />
+        
+</when>
+        <otherwise>
+            <!&#45;&#45; Not enough errors yet &#45;&#45;>
+            <logger message="⏳ Error count is less than 10 — waiting..." level="INFO" />
+        </otherwise>
+    </choice>
+</flow> [STUDIO] -->
+	<flow name="test-erroralertFlow" doc:id="08ba1ae3-2af1-46c2-878e-738d38ab8000" >
+		<salesforce:replay-channel-listener doc:name="Replay channel listener" doc:id="5bad2eb5-039f-4309-86a6-9389bd4c3c32" config-ref="Salesforce_Config-sandipan-jwt" replayOption="FROM_REPLAY_ID" replayId="-1" streamingChannel="/event/ContactPE__e">
+			<reconnect frequency="60000" count="20" />
+		</salesforce:replay-channel-listener>
+		<logger level="INFO" doc:name="Logger" doc:id="ca0e3f13-1a97-46e7-b7de-3bb895c2a1dd" message='"the payload is : #[payload]"'/>
+		<ee:transform doc:name="Transform Message" doc:id="f331a3c4-3c2e-4c46-a93d-4ed6d1830bdf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<!-- [STUDIO:"test-erroralertFlow1"]<flow name="test-erroralertFlow1" doc:id="cbeae270-0c0a-4546-89b4-a4b4beace7e1" >
+		<http:listener doc:name="Listener" doc:id="f8561e40-5095-48bc-a1e1-d9981987bb65" config-ref="HTTP_Listener_config" path="/jwtTest"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3ef5512b-fcdd-48a4-b2b8-595175f15f47" message="||||||| inside Case event exp API  |||||||||||| #[payload&#93;"/>
+		<logger level="INFO" doc:name="Logger" doc:id="48d106e8-75be-43aa-9c04-0db4089cde5c" message=' key value : #[read(payload.JSON_Payload__c, "application/json").RelatedDocument.Name&#93;'/>
+		<logger level="INFO" doc:name="Logger" doc:id="d268f0a8-c3ca-4b1d-b335-007d4600b248" message="|||||||| Inside  platform event sys api |||||||||  #[[payload&#93;&#93;"/>
+		<ee:transform doc:name="Transform Message" doc:id="a13ab6a8-fea8-423e-a2a2-beb766a082d5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+[
+  {
+    Firstname__c: payload.FirstName,
+    Lastname__c: payload.LastName,
+    //Language__c: "English"
+  }
+&#93;
+&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:publish-platform-event-message doc:name="Publish platform event message" doc:id="abea1b56-9892-4578-b8d0-0f7fa40b48dd" config-ref="Salesforce_Config_JMF_JWT" platformEventName="#[attributes.queryParams.'event'&#93;">
+			<salesforce:platform-event-messages ><![CDATA[#[[payload&#93;&#93;&#93;&#93;></salesforce:platform-event-messages>
+		</salesforce:publish-platform-event-message>
+		<ee:transform doc:name="Transform Message" doc:id="80e58e03-0191-48ea-ab11-5b1e3180713c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="8761980d-2bd9-4e36-aa34-05e985693d7e" message="||||||| After creating salesforce event ||||||| #[payload&#93;"/>
+	</flow> [STUDIO] -->
+	
+	
+</mule>
